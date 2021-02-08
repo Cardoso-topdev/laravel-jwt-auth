@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api', 'cors'],
     'prefix' => 'auth'
 
 ], function ($router) {
@@ -25,4 +26,11 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::get('/user-profile', [AuthController::class, 'userProfile'])->name('userProfile');    
+});
+
+Route::group([
+    'middleware' => ['api', 'cors'],
+    'prefix' => 'user'
+], function () {
+    Route::get('/list', [UserController::class, 'getUsers']);
 });
